@@ -1,0 +1,39 @@
+// spring-boot-gradle-plugin 의 의존성 관리를 위한 설정
+buildscript {
+    // build.gradle 에서 사용할 전역변수 선언
+    ext {
+        springBootVersion = '2.1.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+// 자바와 스프링 부트를 사용하기 위해서는 필수 플러그인들!
+// 'io.spring.dependency-management' 는 스프링 부트의 의존성들을 관리해주는 플러그인이라 꼭 추가!
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.goldpenguin.book'
+version '1.0-SNAPSHOT'
+// sourceCompatibility : 자바 소스를 컴파일할 때 사용할 Java 버전
+sourceCompatibility = 1.8
+
+// 각종 의존성 (라이브러리)들을 어떤 원격 저장소에서 받을지를 결정
+// 기본적으로 mavenCentral 많이 사용, 최근에는 라이브러리 업로드 난이도 떄문에 jcenter 도 많이 사용
+repositories {
+    mavenCentral()
+}
+
+// 프로젝트 개발에 필요한 의존성들을 선언하는 곳
+// 인텔리제이는 메이븐 저장소의 데이터를 인덱싱해서 관리하기 떄문에 의존성 자동완성이 가능
+// 버전을 명시하지 않아야 위에서 작성한 스프링부트 버전을 따라감(버전충돌, 관리 문제 해결)
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
